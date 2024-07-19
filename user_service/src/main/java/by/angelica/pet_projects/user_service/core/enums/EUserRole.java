@@ -1,4 +1,4 @@
-package by.angelica.pet_projects.user_service.controller.core.enums;
+package by.angelica.pet_projects.user_service.core.enums;
 
 import java.util.Optional;
 

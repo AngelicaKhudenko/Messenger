@@ -1,12 +1,16 @@
 package by.angelica.pet_projects.user_service.controller.http;
 
-import by.angelica.pet_projects.user_service.controller.core.dto.*;
+import by.angelica.pet_projects.user_service.core.dto.*;
+import by.angelica.pet_projects.user_service.model.UserEntity;
+import by.angelica.pet_projects.user_service.service.api.ICabinetService;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/cabinet")
@@ -51,7 +55,7 @@ public class CabinetController {
                 .mail(mail)
                 .build();
 
-        this.cabinetService.verify(verificationDTO);
+        this.cabinetService.verify(verification);
     }
 
     @GetMapping("/me")
@@ -62,7 +66,7 @@ public class CabinetController {
         return this.conversionService.convert(entity, UserDTO.class);
     }
 
-    @GetMapping("friends")
+    @GetMapping("/friends")
     public PageDTO<UserDTO> getFriends(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                        @RequestParam(value = "size", defaultValue = "20") Integer size) {
 
@@ -72,6 +76,18 @@ public class CabinetController {
 
         Page<UserDTO> friends = entities.map(entity -> conversionService.convert(entity, UserDTO.class));
 
-        return new PageDTO<>(userDTOS);
+        return new PageDTO<>(friends);
+    }
+
+    @PutMapping("/friends/{uuid}")
+    public void addFriend(@PathVariable(value = "uuid") UUID friend) {
+
+        this.cabinetService.addFriend(friend);
+    }
+
+    @DeleteMapping("/friends/{uuid}")
+    public void deleteFriend(@PathVariable(value = "uuid") UUID friend) {
+
+        this.cabinetService.deleteFriend(friend);
     }
 }

@@ -1,8 +1,8 @@
-package by.angelica.pet_projects.user_service.controller.core.dto;
+package by.angelica.pet_projects.user_service.core.dto;
 
-import by.angelica.pet_projects.user_service.controller.core.enums.EUserRole;
-import by.angelica.pet_projects.user_service.controller.core.enums.EUserStatus;
-import by.angelica.pet_projects.user_service.controller.core.utils.LocalDateTimeSerializer;
+import by.angelica.pet_projects.user_service.core.enums.EUserRole;
+import by.angelica.pet_projects.user_service.core.enums.EUserStatus;
+import by.angelica.pet_projects.user_service.core.utils.LocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;

@@ -6,3 +6,9 @@ spring:
     url: jdbc:postgresql://localhost:15432/messenger_user_service
     username: user_service_app
     password: 12345
+
+app:
+  jwt:
+    secret: NDQ1ZjAzNjQtMzViZi00MDRjLTljZjQtNjNjYWIyZTU5ZDYw
+    issuer: Pet-projects
+  verification: /api/v1/cabinet/verification

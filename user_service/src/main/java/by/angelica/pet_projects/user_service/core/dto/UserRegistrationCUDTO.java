@@ -1,4 +1,4 @@
-package by.angelica.pet_projects.user_service.controller.core.dto;
+package by.angelica.pet_projects.user_service.core.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PasswordCUDTO {
+public class UserRegistrationCUDTO {
 
     @NotEmpty
     @NotNull
@@ -17,9 +17,17 @@ public class PasswordCUDTO {
 
     @NotEmpty
     @NotNull
-    private String key;
+    private String firstName;
+
+    @NotEmpty
+    @NotNull
+    private String secondName;
 
     @NotEmpty
     @NotNull
     private String password;
+
+    @NotEmpty
+    @NotNull
+    private String key;
 }

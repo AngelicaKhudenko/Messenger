@@ -1,4 +1,4 @@
-package by.angelica.pet_projects.user_service.controller.core.utils;
+package by.angelica.pet_projects.user_service.core.utils;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

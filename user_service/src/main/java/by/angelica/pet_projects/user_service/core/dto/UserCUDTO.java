@@ -1,5 +1,7 @@
-package by.angelica.pet_projects.user_service.controller.core.dto;
+package by.angelica.pet_projects.user_service.core.dto;
 
+import by.angelica.pet_projects.user_service.core.enums.EUserRole;
+import by.angelica.pet_projects.user_service.core.enums.EUserStatus;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -9,7 +11,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRegistrationCUDTO {
+public class UserCUDTO {
 
     @NotEmpty
     @NotNull
@@ -30,4 +32,10 @@ public class UserRegistrationCUDTO {
     @NotEmpty
     @NotNull
     private String key;
+
+    @NotNull
+    private EUserRole role;
+
+    @NotNull
+    private EUserStatus status;
 }

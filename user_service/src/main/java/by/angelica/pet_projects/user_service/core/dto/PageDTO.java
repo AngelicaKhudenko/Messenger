@@ -1,4 +1,4 @@
-package by.angelica.pet_projects.user_service.controller.core.dto;
+package by.angelica.pet_projects.user_service.core.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

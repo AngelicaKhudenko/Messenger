@@ -1,4 +1,4 @@
-package by.angelica.pet_projects.user_service.controller.core.dto;
+package by.angelica.pet_projects.user_service.core.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginDTO {
+public class VerificationDTO {
 
     @NotEmpty
     @NotNull
@@ -17,5 +17,5 @@ public class LoginDTO {
 
     @NotEmpty
     @NotNull
-    private String password;
+    private String code;
 }
