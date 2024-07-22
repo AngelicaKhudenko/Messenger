@@ -152,6 +152,13 @@ public class UserEntity {
     public Set<UserEntity> getFriends() {
         return friends;
     }
+    public void addFriend(UserEntity friend) {
+        this.friends.add(friend);
+    }
+
+    public void deleteFriend(UserEntity friend) {
+        this.friends.remove(friend);
+    }
 
     public void setFriends(Set<UserEntity> friends) {
         this.friends = friends;

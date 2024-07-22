@@ -38,13 +38,6 @@ public class CabinetController {
         return this.cabinetService.login(login);
     }
 
-    @PutMapping("/password")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void password(@RequestBody PasswordCUDTO password) {
-
-        this.cabinetService.password(password);
-    }
-
     @GetMapping("/verification")
     public void verify(@RequestParam(value = "code") String code,
                        @RequestParam(value = "mail") String mail) {
@@ -61,7 +54,7 @@ public class CabinetController {
     @GetMapping("/me")
     public UserDTO getInfoOnMe() {
 
-        UserEntity entity = this.cabinetService.getInfoOnMe();
+        UserEntity entity = this.cabinetService.getInfo();
 
         return this.conversionService.convert(entity, UserDTO.class);
     }
@@ -89,5 +82,12 @@ public class CabinetController {
     public void deleteFriend(@PathVariable(value = "uuid") UUID friend) {
 
         this.cabinetService.deleteFriend(friend);
+    }
+
+    @PutMapping("/password")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void password(@RequestBody PasswordCUDTO password) {
+
+        this.cabinetService.changePassword(password);
     }
 }

@@ -13,15 +13,15 @@ public class MailDTO {
     @NotEmpty
     @NotNull
     private String from;
+
     @NotEmpty
     @NotNull
     private String topic;
+
     @NotEmpty
     @NotNull
-    private String addressee_first_name;
-    @NotEmpty
-    @NotNull
-    private String addressee_second_name;
+    private String to;
+    
     @NotEmpty
     @NotNull
     private String text;

@@ -57,14 +57,14 @@ public class CabinetServiceImpl implements ICabinetService {
 
     @Transactional
     @Override
-    public void create(UserRegistrationCUDTO user) {
+    public UserEntity create(UserRegistrationCUDTO userRegistrationCUDTO) {
 
-        UserCUDTO userCUDTO = this.conversionService.convert(user,UserCUDTO.class);
+        UserCUDTO userCUDTO = this.conversionService.convert(userRegistrationCUDTO,UserCUDTO.class);
 
         userCUDTO.setRole(EUserRole.USER);
         userCUDTO.setStatus(EUserStatus.WAITING_ACTIVATION);
 
-        this.userService.create(userCUDTO);
+        UserEntity user = this.userService.create(userCUDTO);
 
         String verificationCode = generateVerificationCode();
 
@@ -77,53 +77,11 @@ public class CabinetServiceImpl implements ICabinetService {
 
         String urlVerification = generateUrl(verificationCode,user.getMail());
 
-        MailDTO mail = this.mailService.generateVerificationMail(user.getFirstName(), user.getSecondName(), urlVerification);
+        MailDTO mail = this.mailService.generateVerificationMail(user.getMail(),user.getFirstName(), user.getSecondName(), urlVerification);
 
         this.mailService.create(mail);
-    }
 
-    @Override
-    public String login(LoginDTO login) {
-
-        String mail = login.getMail();
-        String password = login.getPassword();
-
-        Optional<UserEntity> optional = this.userService.getByMail(mail);
-
-        if (optional.isEmpty()) {
-            throw new FieldsIncorrectException("mail","Пользователь с указанной почтой отсутствует");
-        }
-
-        UserEntity entity = optional.get();
-
-        if (entity.getStatus() != EUserStatus.ACTIVATED) {
-            throw new FieldsIncorrectException("mail","Пользователь не активирован");
-        }
-
-        if (!this.encoder.matches(password, entity.getPassword())) {
-            throw new FieldsIncorrectException("password","Неверный логин или пароль");
-        }
-
-        return this.jwtHandler.generateAccessToken(entity.getUuid(),entity.getRole());
-    }
-
-    @Transactional
-    @Override
-    public void password(PasswordCUDTO password) {
-
-        Optional<UserEntity> optional = this.userService.get(password.getMail());
-
-        if (optional.isEmpty()) {
-            throw new FieldsIncorrectException("mail","Неверно указан адрес электронной почты");
-        }
-
-        UserEntity user = optional.get();
-
-        if (!this.encoder.matches(password.getKey(), user.getKey())) {
-            throw new FieldsIncorrectException("key","Неверно указан адрес электронной почты или ключа");
-        }
-
-        this.userService.changePassword(password.getPassword());
+        return user;
     }
 
     @Transactional
@@ -142,7 +100,7 @@ public class CabinetServiceImpl implements ICabinetService {
             throw new FieldsIncorrectException("code","Неверный код авторизации");
         }
 
-        Optional<UserEntity> optionalUser = this.userService.getByMail(verification.getMail());
+        Optional<UserEntity> optionalUser = this.userService.get(verification.getMail());
 
         if (optionalUser.isEmpty()) {
             throw new FieldsIncorrectException("mail","Неверный адрес электронной почты");
@@ -154,12 +112,44 @@ public class CabinetServiceImpl implements ICabinetService {
         this.userService.update(user);
     }
 
+    @Transactional
     @Override
-    public UserEntity getInfoOnMe() {
+    public String login(LoginDTO login) {
+
+        String mail = login.getMail();
+        String password = login.getPassword();
+
+        Optional<UserEntity> optional = this.userService.get(mail);
+
+        if (optional.isEmpty()) {
+            throw new FieldsIncorrectException("mail","Пользователь с указанной почтой отсутствует");
+        }
+
+        UserEntity entity = optional.get();
+
+        if (entity.getStatus() != EUserStatus.ACTIVATED) {
+            throw new FieldsIncorrectException("mail","Пользователь не активирован");
+        }
+
+        if (!this.encoder.matches(password, entity.getPassword())) {
+            throw new FieldsIncorrectException("password","Неверный логин или пароль");
+        }
+
+        return this.jwtHandler.generateAccessToken(entity.getUuid(),entity.getRole());
+    }
+
+    @Override
+    public UserEntity getInfo() {
 
         UserDetailsExpanded details = this.userHolder.getUser();
 
-        return this.userService.get(UUID.fromString(details.getUsername()));
+        Optional<UserEntity> optional = this.userService.get(UUID.fromString(details.getUsername()));
+
+        if (optional.isEmpty()) {
+            throw new IllegalStateException("Пользователь не авторизован");
+        }
+
+        return optional.get();
     }
 
     @Override
@@ -169,29 +159,47 @@ public class CabinetServiceImpl implements ICabinetService {
 
         UUID user = UUID.fromString(details.getUsername());
 
-        return this.userService.getFriends(user);
+        return this.userService.getFriends(user,pageable);
     }
 
+    @Transactional
     @Override
-    public void addFriend(UUID friend) {
+    public void addFriend(UUID uuidFriend) {
 
         UserDetailsExpanded details = this.userHolder.getUser();
-
         UUID user = UUID.fromString(details.getUsername());
 
-        this.userService.addFriend(friend);
+        this.userService.addFriend(user,uuidFriend);
     }
 
+    @Transactional
     @Override
-    public void deleteFriend(UUID friend) {
+    public void deleteFriend(UUID uuidFriend) {
 
         UserDetailsExpanded details = this.userHolder.getUser();
-
         UUID user = UUID.fromString(details.getUsername());
 
-        this.userService.deleteFriend(friend);
+        this.userService.deleteFriend(user,uuidFriend);
     }
 
+    @Transactional
+    @Override
+    public void changePassword(PasswordCUDTO password) {
+
+        Optional<UserEntity> optional = this.userService.get(password.getMail());
+
+        if (optional.isEmpty()) {
+            throw new FieldsIncorrectException("mail","Неверно указан адрес электронной почты");
+        }
+
+        UserEntity user = optional.get();
+
+        if (!this.encoder.matches(password.getKey(), user.getKey())) {
+            throw new FieldsIncorrectException("key","Неверно указан адрес электронной почты или ключа");
+        }
+
+        this.userService.changePassword(password.getPassword(),password.getMail());
+    }
 
     private String generateVerificationCode() {
 

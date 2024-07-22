@@ -6,11 +6,13 @@ import io.jsonwebtoken.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+@Component
 public class JwtTokenHandler {
     private final JWTProperty property;
     private final static Logger logger = LogManager.getLogger();
