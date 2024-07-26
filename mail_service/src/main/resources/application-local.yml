@@ -1,0 +1,11 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:15432/messenger_mail_service
+    username: mail_service_app
+    password: 12345
+
+url:
+  users: http://localhost:8080/users

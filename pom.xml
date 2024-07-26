@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>user_service</module>
+        <module>mail_service</module>
     </modules>
 
     <properties>
