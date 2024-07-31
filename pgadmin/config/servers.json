@@ -1,0 +1,13 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "messenger_service_app",
+      "Group": "messenger_service_app",
+      "Port": 5432,
+      "Username": "messenger_service_app",
+      "Host": "pg_db",
+      "SSLMode": "prefer",
+      "MaintenanceDB": "postgres"
+    }
+  }
+}

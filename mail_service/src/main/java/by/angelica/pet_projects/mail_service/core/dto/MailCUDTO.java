@@ -13,10 +13,6 @@ public class MailCUDTO {
 
     @NotEmpty
     @NotNull
-    private String from;
-
-    @NotEmpty
-    @NotNull
     private String topic;
 
     @NotEmpty

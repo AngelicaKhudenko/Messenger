@@ -1,5 +1,7 @@
 package by.angelica.pet_projects.mail_service.config;
 
+import by.angelica.pet_projects.mail_service.core.converters.MailCUDTOToEntityConverter;
+import by.angelica.pet_projects.mail_service.core.converters.MailEntityToDTOConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ConversionServiceFactoryBean;
@@ -13,23 +15,13 @@ import java.util.Set;
 public class ConverterConfig {
 
     @Bean
-    public UserEntityToDTOConverter userEntityToDTOConverter() {
-        return new UserEntityToDTOConverter();
+    public MailEntityToDTOConverter mailEntityToDTOConverter() {
+        return new MailEntityToDTOConverter();
     }
 
     @Bean
-    public MailDTOtoEntityConverter mailDTOtoEntityConverter() {
-        return new MailDTOtoEntityConverter();
-    }
-
-    @Bean
-    public UserCUDTOToEntityConverter userCUDTOToEntityConverter() {
-        return new UserCUDTOToEntityConverter();
-    }
-
-    @Bean
-    public UserRegistrationCUDTOtoUserCUDTOConverter userRegistrationCUDTOtoUserCUDTOConverter() {
-        return new UserRegistrationCUDTOtoUserCUDTOConverter();
+    public MailCUDTOToEntityConverter mailDTOtoEntityConverter() {
+        return new MailCUDTOToEntityConverter();
     }
 
     @Bean
@@ -44,10 +36,9 @@ public class ConverterConfig {
     private Set<Converter<?, ?>> getConverters() {
 
         Set<Converter<?, ?>> converters = new HashSet<>();
-        converters.add(userEntityToDTOConverter());
+        converters.add(mailEntityToDTOConverter());
         converters.add(mailDTOtoEntityConverter());
-        converters.add(userCUDTOToEntityConverter());
-        converters.add(userRegistrationCUDTOtoUserCUDTOConverter());
+
         return converters;
     }
     

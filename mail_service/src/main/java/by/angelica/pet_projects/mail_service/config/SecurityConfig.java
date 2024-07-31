@@ -1,5 +1,6 @@
 package by.angelica.pet_projects.mail_service.config;
 
+import by.angelica.pet_projects.mail_service.controller.filter.JwtFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

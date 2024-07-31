@@ -1,7 +1,7 @@
 package by.angelica.pet_projects.mail_service.service.impl;
 
-import by.angelica.pet_projects.user_service.model.MailEntity;
-import by.angelica.pet_projects.user_service.service.api.IMailSendService;
+import by.angelica.pet_projects.mail_service.model.MailEntity;
+import by.angelica.pet_projects.mail_service.service.api.IMailSendService;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

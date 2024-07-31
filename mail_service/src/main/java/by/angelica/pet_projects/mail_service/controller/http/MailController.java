@@ -21,7 +21,6 @@ public class MailController {
     private final IMailService mailService;
     private final ConversionService conversionService;
 
-
     public MailController(IMailService mailService,
                           ConversionService conversionService) {
 
@@ -77,6 +76,7 @@ public class MailController {
     }
 
     @PutMapping(value = "/{uuid}/dt_update/{dt_update}")
+    @ResponseStatus(HttpStatus.CREATED)
     public void update(@PathVariable(value = "uuid") UUID uuid,
                        @PathVariable(value = "dt_update") Long updateDate,
                        @RequestBody MailCUDTO mail) {

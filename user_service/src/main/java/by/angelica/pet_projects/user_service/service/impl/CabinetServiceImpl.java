@@ -77,7 +77,8 @@ public class CabinetServiceImpl implements ICabinetService {
 
         String urlVerification = generateUrl(verificationCode,user.getMail());
 
-        MailDTO mail = this.mailService.generateVerificationMail(user.getMail(),user.getFirstName(), user.getSecondName(), urlVerification);
+        MailDTO mail = this.mailService.generateVerificationMail(user.getMail(),
+                user.getFirstName(), user.getSecondName(), urlVerification);
 
         this.mailService.create(mail);
 

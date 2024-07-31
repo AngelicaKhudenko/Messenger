@@ -1,0 +1,48 @@
+name: messenger
+
+services:
+  pg_db:
+    build: postgresql
+    image: postgresql-finance:1.0.0
+    environment:
+      POSTGRES_USER: messenger_admin
+      POSTGRES_PASSWORD: 123
+    networks:
+      - messenger-network
+  pgadmin:
+    build: pgadmin
+    image: pgadmin_finance:1.0.0
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@messenger.com
+      PGADMIN_DEFAULT_PASSWORD: messenger
+    ports:
+      - 82:80
+    networks:
+      - messenger-network
+  user-service:
+    build: user_service
+    image: user_service_messenger:1.0.0
+    environment:
+      MAIL_LOGIN: ${MAIL_LOGIN}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER: ${SERVER}
+    networks:
+      - messenger-network
+  mail-service:
+    build: mail_service
+    image: mail_service_messenger:1.0.0
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - messenger-network
+  proxy:
+    build: proxy
+    image: proxy_messenger:1.0.0
+    ports:
+      - 80:80
+    networks:
+      - messenger-network
+
+networks:
+  messenger-network:

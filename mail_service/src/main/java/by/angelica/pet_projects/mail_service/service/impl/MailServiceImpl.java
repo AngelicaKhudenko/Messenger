@@ -41,8 +41,11 @@ public class MailServiceImpl implements IMailService {
     @Override
     public MailEntity create(MailCUDTO mail) {
 
+        UserDTO userDTO = getUserByToken();
+
         MailEntity entity = this.conversionService.convert(mail, MailEntity.class);
 
+        entity.setFrom(userDTO.getMail());
         entity.setUuid(UUID.randomUUID());
         entity.setStatus(EMailStatus.LOADED);
         entity.setCreation(LocalDateTime.now());
@@ -101,7 +104,6 @@ public class MailServiceImpl implements IMailService {
             throw new OptimisticLockException("Несоответствие версий. Данные были обновлены другим пользователем");
         }
 
-        entity.setFrom(mail.getFrom());
         entity.setTopic(mail.getTopic());
         entity.setTo(mail.getTo());
         entity.setText(mail.getText());
